@@ -102,10 +102,11 @@ def gn_bacilli_ID
 end    
 
 #Code to run if a user has a gram-negative coccus (or coccobacillus; this code to be added later)
+#Some bacteria are considered coccobacilli; these are to be included in Gram-negative bacilli
 def gn_cocci_ID
     gn_cocci_ID = 0
-gram_negative_cocci = ["Moraxella catarrhalis", "Neisseria gonorrhoeae", "Neisseria meningiditis", "Haemophilus influenzae"]
-    print "Did growth require X + V factors?"
+gram_negative_cocci = ["Moraxella catarrhalis", "Neisseria gonorrhoeae", "Neisseria meningiditis", "Veillonella"]
+    print "Does this bacteria require anaerobic conditions?"
     if yes_or_no
             gn_cocci_ID += 3
     else
