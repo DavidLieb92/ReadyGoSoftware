@@ -12,10 +12,11 @@ gram_positive_bacilli = {
     "Bacillus" => ["true", "false"],
     "Clostridium" => ["true", "true"],
     "Mycobacterium" => ["false", "true"],
-    "Lactobacillus" => ["false", "false", "false"],
+    "Lactobacillus fermenti" => ["false", "false", "false", "true"],
+    "Lactobacillus casei" => ["false", "false", "false", "false", "true"],
+    "Lactobacillus delbrueckii" => ["false", "false", "false", "false", "false"],
     "Corynebacterium kutsceri" => ["false", "false", "true", "true"],
-    "Corynebacterium xerosis" => ["false", "false", "true", "false"]
-     }
+    "Corynebacterium xerosis" => ["false", "false", "true", "false"] }
 
 gram_positive_cocci = {
     "Staphylococcus epidermidis" => ["true", "false"],
@@ -34,6 +35,15 @@ gram_positive_cocci = {
 gram_negative_bacilli = {
     "Non-Lactose fermenting Enterobacteria" => ["false", "false"],
     "Indole-negative, lactose-fermenting Enterobacteria" => ["false", "true", "false"],
+    "Enterobacter intermedius" => ["false", "true", "false", "true", "true"],
+    "Citrobacter freundii" => ["false", "true", "false", "true", "false", "true"],
+    "Serratia fonticola" => ["false", "true", "false", "true", "false", "false", "true"],
+    "Klebsiella pneumoniae, ssp. ozaneae" => ["false", "true", "false", "true", "false", "false", "false"],
+    "Klebsiella pneumoniae, ssp. pneumoniae" => ["false", "true", "false", "false", "true", "true", "false"],
+    "Serratia rubidaea" => ["false", "true", "false", "false", "true", "true", "true", "true"],
+    "Enterobacter aerogenes" => ["false", "true", "false", "false", "true", "true", "true", "false"],
+    "Enterobacter cloaceae" => ["false", "true", "false", "false", "true", "false", "true"],
+    "Enterobacter amnigenus" => ["false", "true", "false", "false", "true", "false", "false"],
     "Eschericia coli" => ["false", "true", "true", "false"],
     "Citrobacter diversus" => ["false", "true", "true", "true", "false"],
     "Erwinia chrysanthemi" => ["false", "true", "true", "true", "true", "true"],
@@ -86,6 +96,12 @@ def gp_bacilli_ID
             if yes_or_no(gp_bacilli_set)
                 print "Does the bacteria hydrolyze starch?"
                 yes_or_no(gp_bacilli_set)
+            else
+                print "Does the bacteria produce gas during glucose fermentation?"
+                if !yes_or_no(gp_bacilli_set)
+                    print "Can the bacteria use mannitol?"
+                    yes_or_no(gp_bacilli_set)
+                end
             end
         end
     end
@@ -152,6 +168,33 @@ def gn_bacilli_ID
                     if yes_or_no(gn_bacilli_set)
                         print "Does the bacteria produce H2S?"
                         yes_or_no(gn_bacilli_set)
+                    end
+                end
+            else
+                print "Is the methyl red test positive?"
+                if yes_or_no(gn_bacilli_set)
+                    print "Is the VP test positive?"
+                    if !yes_or_no(gn_bacilli_set)
+                        print "Does the bacteria produce H2S?"
+                        if !yes_or_no(gn_bacilli_set)
+                            print "Is the bacteria motile?"
+                            yes_or_no(gn_bacilli_set)
+                        end
+                    end
+                else
+                    print "Is the VP test positive?"
+                    if yes_or_no(gn_bacilli_set)
+                        print "Is lysine decarboxylase activity present?"
+                        if yes_or_no(gn_bacilli_set)
+                            print "Is the bacteria motile?"
+                            if yes_or_no(gn_bacilli_set)
+                                print "Is the bacteria pigmented?"
+                                yes_or_no(gn_bacilli_set)
+                            end
+                        else
+                            print "Does the bacteria produce acid from sorbitol?"
+                            yes_or_no(gn_bacilli_set)
+                        end
                     end
                 end
             end
