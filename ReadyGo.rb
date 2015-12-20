@@ -29,12 +29,26 @@ gram_positive_cocci = {
     "Streptococcus bovis" => ["false", "gamma", "true", "false"],
     "Enterococcus faecalis" => ["false", "gamma", "true", "true"] }
 
-#The basic format for questions: [oxidase, glucose, lactose]
-#If oxidase is positive and glucose is -, [oxidase, glucose, lactose, pyocyanin pigment]
-#If oxidase is positive and glucose is +, [oxidase, glucose, lactose, O/129 sensitive, TCBS color == yellow]
 gram_negative_bacilli = {
-    "Non-Lactose fermenting Enterobacteria" => ["false", "false"],
-    "Indole-negative, lactose-fermenting Enterobacteria" => ["false", "true", "false"],
+    #Oxidase-positive
+    "Pseudomonas aeruginosa" => ["true", "false", "true"],
+    "a Pseudomonas species" => ["true", "false", "false"],
+    "Aeromonas" => ["true", "true", "false"],
+    "Vibrio cholerae" => ["true", "true", "true", "true"],
+    "Vibrio vulnificus" => ["true", "true", "true", "false", "true"],
+    "Vibrio parahaemolyticus" => ["true", "true", "true", "false", "false"],
+    #Oxidase-negative, lactose-negative
+    "Non-Lactose fermenting, indole-negative Enterobacteria" => ["false", "false", "false"],
+    "Proteus vulgaris" => ["false", "false", "true", "true", "true"],
+    "Edwardsiella tarda" => ["false", "false", "true", "true", "false"],
+    "Providencia stuartii" => ["false", "false", "true", "false", "true"],
+    "Morganella morganii" => ["false", "false", "true", "false", "false"],
+    #Oxidase-negative, lactose-positive, indole-positive
+    "Eschericia coli" => ["false", "true", "true", "false"],
+    "Citrobacter diversus" => ["false", "true", "true", "true", "false"],
+    "Erwinia chrysanthemi" => ["false", "true", "true", "true", "true", "true"],
+    "Klebsiella oxytoca" => ["false", "true", "true", "true", "true", "false"],
+    #Oxidase-negative, lactose-positive, indole-negative
     "Enterobacter intermedius" => ["false", "true", "false", "true", "true"],
     "Citrobacter freundii" => ["false", "true", "false", "true", "false", "true"],
     "Serratia fonticola" => ["false", "true", "false", "true", "false", "false", "true"],
@@ -43,18 +57,8 @@ gram_negative_bacilli = {
     "Serratia rubidaea" => ["false", "true", "false", "false", "true", "true", "true", "true"],
     "Enterobacter aerogenes" => ["false", "true", "false", "false", "true", "true", "true", "false"],
     "Enterobacter cloaceae" => ["false", "true", "false", "false", "true", "false", "true"],
-    "Enterobacter amnigenus" => ["false", "true", "false", "false", "true", "false", "false"],
-    "Eschericia coli" => ["false", "true", "true", "false"],
-    "Citrobacter diversus" => ["false", "true", "true", "true", "false"],
-    "Erwinia chrysanthemi" => ["false", "true", "true", "true", "true", "true"],
-    "Klebsiella oxytoca" => ["false", "true", "true", "true", "true", "false"]
-    "Pseudomonas aeruginosa" => ["true", "false", "true"],
-    "a Pseudomonas species" => ["true", "false", "false"],
-    "Aeromonas" => ["true", "true", "false"],
-    "Vibrio cholerae" => ["true", "true", "true", "true"],
-    "Vibrio vulnificus" => ["true", "true", "true", "false", "true"],
-    "Vibrio parahaemolyticus" => ["true", "true", "true", "false", "false"]
-}
+    "Enterobacter amnigenus" => ["false", "true", "false", "false", "true", "false", "false"]
+ }
     
 gram_negative_cocci = {
     "Veillonella" => ["true"],
@@ -196,6 +200,18 @@ def gn_bacilli_ID
                             yes_or_no(gn_bacilli_set)
                         end
                     end
+                end
+            end
+        else
+            print "Is the indole test positive?"
+            if yes_or_no(gn_bacilli_set)
+                print "Does the bacteria produce H2S?"
+                if yes_or_no(gn_bacilli_set)
+                    print "Does the bacteria produce urease?"
+                    yes_or_no(gn_bacilli_set)
+                else
+                    print "Is ornithine decarboxylase activity present?"
+                    yes_or_no(gn_bacilli_set)
                 end
             end
         end
