@@ -66,8 +66,40 @@ gram_negative_cocci = {
     "Neisseria gonorrhoeae" => ["false", "false", "true"],
     "Moraxella catarrhalis" => ["false", "false", "false"] }
 
-def yes_or_no(data_set)
-    print " Answer yes or no: "
+def yes_or_no(data_set, test_name)
+    question_list = {
+    "acid-fast" => "Did the bacteria test positive in the acid-fast test?",
+    "anaerobic" => "Is the bacteria strictly anaerobic?",
+    "bacitracin" => "Is the bacteria sensitive to bacitracin?",
+    "bile growth" => "Does the bacteria grow on bile esculin agar?",
+    "bile stain" => "Does the bacteria produce a black stain on bile esculin agar?",
+    "catalase" => "Is the catalase test positive?",
+    "citrate" => "Can the bacteria utilize citrate?",
+    "coagulase" => "Does the bacteria produce coagulase?",
+    "glucose ferment" => "Can the bacteria ferment glucose?",
+    "glucose gas" => "Does the bacteria produce gas during glucose fermentation?",
+    "H2S" => "Does the bacteria produce H2S?",
+    "indole" => "Is the indole test positive?",
+    "lactose" => "Can the bacteria ferment lactose?",
+    "lysine" => "Is lysine decarboxylase activity present?",
+    "maltose" => "Can the bacteria ferment maltose?",
+    "mannitol" => "Can the bacteria utilize mannitol?",
+    "methyl red" => "Is the methyl red test positive?",
+    "motility" => "Is the bacteria motile?",
+    "O/129" => "Is the bacteria sensitive to O/129?",
+    "optochin" => "Is the bacteria sensitive to optochin?",
+    "orthnithine" => "Is ornithine decarboxylase activity present?",
+    "oxidase" => "Is the oxidase test positive?",
+    "pigment" => "Is the bacteria pigmented?",
+    "pyocyanin" => "Does the bacteria contain pyocyanin pigment?",
+    "sorbitol" => "Does the bacteria produce acid from sorbitol?",
+    "spore" => "Does the bacteria produce spores?",
+    "starch" => "Does the bacteria hydrolyze starch?",
+    "TCBS" => "Does the bacteria produce a yellow color on TCBS agar?",
+    "urease" => "Does the bacteria produce urease?",
+    "VP" => "Is the VP test positive?" }
+    question = question_list[test_name]
+    print "#{question} Answer yes or no: "
     user_input = gets.chomp
     if user_input == "yes"
         data_set.push("true")
@@ -87,24 +119,17 @@ end
 #Code to run if user has a gram-positive bacillus
 def gp_bacilli_ID
     gp_bacilli_set = []
-    print "Are the bacteria spore-forming?"
-    if yes_or_no(gp_bacilli_set)
-            print "Is the bacterium strictly anaerobic?"
-            yes_or_no(gp_bacilli_set)
+    if yes_or_no(gp_bacilli_set, "spore")
+        yes_or_no(gp_bacilli_set, "anaerobic")
     #Only two genuses of gram-positive rods form spores: Clostridium and Bacillus.
     #Clostridium strictly grows in anaerobic environments, which set it apart from Bacillus
     else
-        print "Did the bacteria test positive in the acid-fast test?"
-        if !yes_or_no(gp_bacilli_set)
-            print "Is the bacteria catalase positive?"
-            if yes_or_no(gp_bacilli_set)
-                print "Does the bacteria hydrolyze starch?"
-                yes_or_no(gp_bacilli_set)
+        if !yes_or_no(gp_bacilli_set, "acid-fast")
+            if yes_or_no(gp_bacilli_set, "catalase")
+                yes_or_no(gp_bacilli_set, "starch")
             else
-                print "Does the bacteria produce gas during glucose fermentation?"
-                if !yes_or_no(gp_bacilli_set)
-                    print "Can the bacteria use mannitol?"
-                    yes_or_no(gp_bacilli_set)
+                if !yes_or_no(gp_bacilli_set, "glucose gas")
+                    yes_or_no(gp_bacilli_set, "mannitol")
                 end
             end
         end
@@ -115,10 +140,8 @@ end
 #Code to run if a user has a gram-positive coccus
 def gp_cocci_ID
     gp_cocci_set = []
-    print "Is the bacteria catalase positive?"
-    if yes_or_no(gp_cocci_set)
-        print "Is the bacterium coagulase positive?"
-        yes_or_no(gp_cocci_set)
+    if yes_or_no(gp_cocci_set, "catalase")
+        yes_or_no(gp_cocci_set, "coagulase")
     else
         print "What hemolysis is present? Answer alpha, beta, or gamma: "
         hemolysis = gets.chomp
@@ -126,16 +149,12 @@ def gp_cocci_ID
     #A catalase negative, gram-positive cocci is a Streptococcus. Based on the hemolysis type,
     #we can further narrow down the specific species
         if hemolysis == "beta"
-            print "Is the bacteria sensitive to bacitracin?"
-            yes_or_no(gp_cocci_set)
+            yes_or_no(gp_cocci_set, "bacitracin")
         elsif hemolysis == "alpha"
-            print "Is the bacteria sensitive to optochin?"
-            yes_or_no(gp_cocci_set)
+            yes_or_no(gp_cocci_set, "optochin")
         else
-            print "Does the bacteria grow on bile esculin agar?"
-            if yes_or_no(gp_cocci_set)
-                print "Does the bacteria produce a black stain on bile esculin agar?"
-                yes_or_no(gp_cocci_set)
+            if yes_or_no(gp_cocci_set, "bile growth")
+                yes_or_no(gp_cocci_set, "bile stain")
             end
         end
     end
@@ -145,73 +164,49 @@ end
 #Code to run if user has a gram-negative bacilli (more diferrentiating questions to be added)
 def gn_bacilli_ID
     gn_bacilli_set = []
-    print "Was the oxidase test positive?"
-    if yes_or_no(gn_bacilli_set)
-        print "Can the bacteria ferment glucose?"
-        if !yes_or_no(gn_bacilli_set)
-            print "Does the bacteria contain pyocyanin pigment?"
-            yes_or_no(gn_bacilli_set)
+    if yes_or_no(gn_bacilli_set, "oxidase")
+        if !yes_or_no(gn_bacilli_set, "glucose ferment")
+            yes_or_no(gn_bacilli_set, "pyocyanin")
         else
-            print "Is the bacteria sensitive to O/129?"
-            if yes_or_no(gn_bacilli_set)
-                print "Does the bacteria produce a yellow color on TCBS agar?"
-                if !yes_or_no(gn_bacilli_set)
-                    print "Did the bacteria ferment lactose?"
-                    yes_or_no(gn_bacilli_set)
+            if yes_or_no(gn_bacilli_set, "O/129")
+                if !yes_or_no(gn_bacilli_set, "TCBS")
+                    yes_or_no(gn_bacilli_set, "lactose")
                 end
             end
         end
     else
-        print "Can the bacteria ferment lactose?"
-        if yes_or_no(gn_bacilli_set)
-            print "Is the indole test positive?"
-            if yes_or_no(gn_bacilli_set)
-                print "Can the bacteria use citrate?"
-                if yes_or_no(gn_bacilli_set)
-                    print "Is the VP test positive?"
-                    if yes_or_no(gn_bacilli_set)
-                        print "Does the bacteria produce H2S?"
-                        yes_or_no(gn_bacilli_set)
+        if yes_or_no(gn_bacilli_set, "lactose")
+            if yes_or_no(gn_bacilli_set, "indole")
+                if yes_or_no(gn_bacilli_set, "citrate")
+                    if yes_or_no(gn_bacilli_set, "VP")
+                        yes_or_no(gn_bacilli_set, "H2S")
                     end
                 end
             else
-                print "Is the methyl red test positive?"
-                if yes_or_no(gn_bacilli_set)
-                    print "Is the VP test positive?"
-                    if !yes_or_no(gn_bacilli_set)
-                        print "Does the bacteria produce H2S?"
-                        if !yes_or_no(gn_bacilli_set)
-                            print "Is the bacteria motile?"
-                            yes_or_no(gn_bacilli_set)
+                if yes_or_no(gn_bacilli_set, "methyl red")
+                    if !yes_or_no(gn_bacilli_set, "VP")
+                        if !yes_or_no(gn_bacilli_set, "H2S")
+                            yes_or_no(gn_bacilli_set, "motility")
                         end
                     end
                 else
-                    print "Is the VP test positive?"
-                    if yes_or_no(gn_bacilli_set)
-                        print "Is lysine decarboxylase activity present?"
-                        if yes_or_no(gn_bacilli_set)
-                            print "Is the bacteria motile?"
-                            if yes_or_no(gn_bacilli_set)
-                                print "Is the bacteria pigmented?"
-                                yes_or_no(gn_bacilli_set)
+                    if yes_or_no(gn_bacilli_set, "VP")
+                        if yes_or_no(gn_bacilli_set, "lysine")
+                            if yes_or_no(gn_bacilli_set, "motility")
+                                yes_or_no(gn_bacilli_set, "pigment")
                             end
                         else
-                            print "Does the bacteria produce acid from sorbitol?"
-                            yes_or_no(gn_bacilli_set)
+                            yes_or_no(gn_bacilli_set, "sorbitol")
                         end
                     end
                 end
             end
         else
-            print "Is the indole test positive?"
-            if yes_or_no(gn_bacilli_set)
-                print "Does the bacteria produce H2S?"
-                if yes_or_no(gn_bacilli_set)
-                    print "Does the bacteria produce urease?"
-                    yes_or_no(gn_bacilli_set)
+            if yes_or_no(gn_bacilli_set, "indole")
+                if yes_or_no(gn_bacilli_set, "H2S")
+                    yes_or_no(gn_bacilli_set, "urease")
                 else
-                    print "Is ornithine decarboxylase activity present?"
-                    yes_or_no(gn_bacilli_set)
+                    yes_or_no(gn_bacilli_set, "ornithine")
                 end
             end
         end
@@ -224,11 +219,9 @@ end
 def gn_cocci_ID
     gn_cocci_set = []
     print "Does this bacteria require anaerobic conditions?"
-    if !yes_or_no(gn_cocci_set)
-        print "Can the bacteria ferment maltose?"
-        if !yes_or_no(gn_cocci_set)
-            print "Can the bacteria ferment glucose?"
-            yes_or_no(gn_cocci_set)
+    if !yes_or_no(gn_cocci_set, "anaerobic")
+        if !yes_or_no(gn_cocci_set, "maltose")
+            yes_or_no(gn_cocci_set, "glucose")
         end
     end
     return gn_cocci_set
